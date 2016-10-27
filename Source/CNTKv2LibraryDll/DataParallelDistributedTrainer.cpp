@@ -70,12 +70,22 @@ namespace CNTK
     }
 
     DistributedTrainerPtr CreateBlockMomentumDistributedTrainer(
-        DistributedCommunicatorPtr /*communicator*/,
-        bool /*useNestrovMomentum*/,
-        bool /*m_resetSGDMomentumAfterAggregation*/,
-        double /*blockLearningRate*/,
-        double /*blockMomentumAsTimeConstant*/,
-        size_t /*syncPeriod*/)
+        DistributedCommunicatorPtr communicator,
+        size_t blockSize,
+        bool useNestrovMomentum,
+        bool resetSGDMomentumAfterAggregation,
+        double blockLearningRate)
+    {
+        LogicError("Block Momentum Distributed Trainer is not supported for this build.");
+    }
+
+    DistributedTrainerPtr CreateBlockMomentumDistributedTrainer(
+        DistributedCommunicatorPtr communicator,
+        size_t blockSize,
+        double blockMomentumAsTimeConstant,
+        bool useNestrovMomentum,
+        bool resetSGDMomentumAfterAggregation,
+        double blockLearningRate)
     {
         LogicError("Block Momentum Distributed Trainer is not supported for this build.");
     }
