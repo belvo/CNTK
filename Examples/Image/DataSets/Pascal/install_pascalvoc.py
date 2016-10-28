@@ -3,6 +3,7 @@ import os
 import os.path
 import tarfile
 import zipfile
+from urllib import ContentTooShortError
 try: 
     from urllib.request import urlretrieve 
 except ImportError: 
@@ -11,16 +12,21 @@ except ImportError:
 def download_and_untar(url, filename, filesize):
     if not os.path.exists(filename):
         print ('Downloading ' + filesize + ' from ' + url + ', may take a while...')
-        urlretrieve(url, filename)
+        try:
+            urlretrieve(url, filename)
+        except (urllib.ContentTooShortError, IOError), e:
+            print ("Error downloading file: " + str(e))
+            os.remove(filename)
+            quit()
     else:
         print ('Found ' + filename)
     try:
         print ('Extracting ' + filename + '...')
         with tarfile.open(filename) as tar:
             tar.extractall()
+        print ('Done.')
     finally:
         os.remove(filename)
-        print ('Done.')
     return;
     
 if __name__ == "__main__":
